@@ -24,8 +24,8 @@ async function generate_upload(templateName,data,fileName){
           });
     }
     
-    setTimeout(upload,20000);
-    setTimeout(deleteFile,21000);
+    setTimeout(upload,10000);
+    setTimeout(deleteFile,11000);
 
 }
 
