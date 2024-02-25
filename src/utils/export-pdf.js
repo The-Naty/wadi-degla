@@ -13,7 +13,7 @@ async function generatePDF(templateName, data, fileName) {
   const page = await browser.newPage();
   const htmlContent = await compile(templateName, data);
   await page.setContent(htmlContent);
-  await page.pdf({ path: `../common/uploads/${fileName}.pdf`, format: 'A4', printBackground: true });
+  await page.pdf({ path: `./${fileName}.pdf`, format: 'A4', printBackground: true });
   await browser.close();
 }
 

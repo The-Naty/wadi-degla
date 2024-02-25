@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "wadi-degala",
+  "private_key_id": "75b5c3685c935b1bc83bf740770ca2f2ef5899e2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC6Xta6C6zccn1d\nN89Muyyugncff+rN9XmiBOCnB8LmgVr8W8V3+avB3SoeV2lpLqBKSAysvOp+hYSJ\ncMlyWjbyBEW2tgiXN280dM+wt/dpkjssypFliBDcoEYei3fX9sRADOTT9N2iF33T\nR3g+toLdTm0+G3uG1ISCBbpTjtlYYm5Yc7C6j6zlciwOTIpJj9ZkV6iLLSHqra3K\nsJgcj/0drNNXHoRaO8qR8xA53ynCgPnxbHcqMCI2VnJL6cWv178fBMAgAGpc9kSy\ntyTgB4bH2J49U7706TsmvGfeQ7masauhPS82IsXHhBTmUkpUDQj0faGmiV9q1igT\njdwjsBITAgMBAAECggEABNglPbXC+wHw10T1mvl8ilay0PtKt6rLTBZTXpQZkVNI\ncanTArDXMZVVnG9KOqUvHm8sAStx7vL6hHYNjm7g4b6Rr1Og+olC1zq4EVBe2nwm\nFJ55VAnK4mk6GV4nsdHkvQN4yTeisS1qJF1Ft1+YHDeHKGefeNw6S4TpmHVsmdr9\nxFyfmDlfsoFkuNR0x7wWdbtI3K2p5tYV41cxAvf8B55fepXMVzPDstGCGlPBiqk7\nsKl9UJOMZQvyylJFXTorbdwt8/aLf3ajGzYb4PugRYb5DzRxM/BLCQW9b1aU9wJX\n7qKZshXK84QkKpRbYFEuFdP/5RwvGfO2VZsTQzMfRQKBgQDkfSHoV49zSsdJmcBx\nhyWS+QyQG95fAQNNtKnSWhJSWItOqL1chkwvX7VYtctRImOvEqT+5iVUbQuvOCoX\nFHnyY86+gqm+aWlDyq4ioqRwV4zzNUEh5Gfng1EpNquiTJXJ7su2Ksbqy8u1/6DM\neGCKPue8aGO/Yceh9GAAmST3VQKBgQDQz3bCBdUuk6p5hu38oOw5rZrN5uz+MqC5\nSaKiRRVy7QtpoyRhAkf8MFTfI56l/nK/k9aTiBBeVxqMCNgmTeSAT16cFG9Swnbm\n7lCHJcrkX213wn5NXAVZwJtXI2vdDvIJrKcSmfmkiTGeSR9aJAZNHbdMiwCzLO0e\ndO1B6jaTxwKBgQDOIy6SJVzgERjWiAYc5ma5wELbSKlIYOuQEWwcwPJCpGuaHZYp\ngWf+XYSIcgrqOfJhIpsE9LG9B1xBSpR+mhSi3/TH364wgX1ckeCkksN0LyiUyvjm\nEODE964jVpVmKV4B/pR+1vz7G72/hs6Vagz+7F25lxxWr2qh7I0oPQIiuQKBgQCH\nUMqe9XSvGFZzJrN28TnkLtKQ+ENAf8KUEFnqWmaJ8X9h160tiHLpxNBbQhP/ciMe\nb0mwlY419LBpaxnXyMZ5N/YRo1R5BzhScsGQszcGQ6kG4O1EaIu3HBAOqg+uU48a\nId6rOUkEDTwwXSaKHapPsyAj5Dhx5H1NLWzLOGJh5QKBgQDerQLEAb9yWu+igfmt\nI49m9ibNPpoHE70jUzR9bKDLyiUvfjwMwjYgXcOnepBDAilfgT3K3b14FrfURaZ4\noYCm6cIQY7P20JmXnlEYwf9fUxoGhn48Ql13RaeZDSzC8HgT1uqr6hF0p/nm/16l\nJfZbNQo9MqqxllOaae4iAJHCuQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "wadi-degla@wadi-degala.iam.gserviceaccount.com",
+  "client_id": "114595220550073184733",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wadi-degla%40wadi-degala.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
