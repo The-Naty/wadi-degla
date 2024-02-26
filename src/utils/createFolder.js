@@ -22,39 +22,41 @@ async function createFolderIfNotExists(folderName) {
     }
 
     let folder;
-    const files = await listFiles();
-    files.files.forEach((file) => {
-        if (file.name === folderName) {
-            folder = file;
+  const files = await listFiles();
+  files.files.forEach((file) => {
+    if (file.name === folderName) {
+      folder = file;
+    }
+  });
+
+  if (folder) {
+    return folder.id;
+  } else {
+    const fileMetadata = {
+      name: folderName,
+      parents: ['1djr2oqLQYOewjukYAuwHni-Rq62CrG1d'],
+      mimeType: 'application/vnd.google-apps.folder',
+    };
+
+    const createdFolder = new Promise((resolve) => {
+      drive.files.create(
+        {
+          auth,
+          resource: fileMetadata,
+          fields: 'id',
+        },
+        (err, result) => {
+          if (err) {
+            console.error(`Error creating folder: ${err}`);
+          } else {
+            resolve(result.data.id);
+          }
         }
+      );
     });
 
-    if (folder) {
-        console.log(`Folder "${folderName}" already exists. ID: ${folder.id}`);
-        return folder.id;
-    } else {
-        const fileMetadata = {
-            name: folderName,
-            parents:['1djr2oqLQYOewjukYAuwHni-Rq62CrG1d'],
-            mimeType: 'application/vnd.google-apps.folder',
-        };
-        drive.files.create(
-            {
-                auth,
-                resource: fileMetadata,
-                fields: 'id',
-            },
-            (err, result) => {
-                if (err) {
-                    console.error(`Error creating folder: ${err}`);
-                } else {
-                    console.log(`Folder "${folderName}" created with ID: ${result.data.id}`);
-                
-                    return result.data.id
-                }
-            }
-        );
-    }
+    return createdFolder;
+  }
 }
 
-module.exports = { createFolderIfNotExists }
+module.exports = { createFolderIfNotExists };

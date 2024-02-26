@@ -12,6 +12,7 @@ async function generate_upload(templateName, data, fileName, userID) {
   async function upload() {
 
     const authClient = await auth.authorize();
+
     api.uploadFile(authClient, fileName, await folderID);
 
   }
@@ -21,7 +22,7 @@ async function generate_upload(templateName, data, fileName, userID) {
       if (err) {
         console.error(err);
       } else {
-        console.log('File is deleted.');
+        console.log('Done');
       }
     });
   }
@@ -33,6 +34,6 @@ async function generate_upload(templateName, data, fileName, userID) {
 
 }
 
-generate_upload('pricing-list', '', 'final-test101','10');
+generate_upload('invoice', '', 'test','1118728');
 
 
