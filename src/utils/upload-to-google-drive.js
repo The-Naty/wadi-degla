@@ -1,40 +1,24 @@
 const fs = require('fs');
-const { google }= require('googleapis');
+const { google } = require('googleapis');
 
-const apikeys = require('./api-key.json');
-const SCOPE = ['https://www.googleapis.com/auth/drive'];
+async function uploadFile(authClient, fileName, folderID) {
 
-async function authorize(){
-    const jwtClient = new google.auth.JWT(
-        apikeys.client_email,
-        null,
-        apikeys.private_key,
-        SCOPE
-    );
-
-    await jwtClient.authorize();
-
-    return jwtClient;
-}
-
-async function uploadFile(authClient, fileName){
-
-    return new Promise((resolve,rejected)=>{
-        const drive = google.drive({version:'v3',auth:authClient}); 
+    return new Promise((resolve, rejected) => {
+        const drive = google.drive({ version: 'v3', auth: authClient });
         var fileMetaData = {
-            name:`${fileName}.pdf`,    
-            parents:['1djr2oqLQYOewjukYAuwHni-Rq62CrG1d']
+            name: `${fileName}.pdf`,
+            parents: [`${folderID}`]
         }
 
         drive.files.create({
-            resource:fileMetaData,
-            media:{
-                body: fs.createReadStream(`${fileName}.pdf`), 
-                mimeType:'application/pdf'
+            resource: fileMetaData,
+            media: {
+                body: fs.createReadStream(`${fileName}.pdf`),
+                mimeType: 'application/pdf'
             },
-            fields:'id'
-        },function(error,file){
-            if(error){
+            fields: 'id'
+        }, function (error, file) {
+            if (error) {
                 return rejected(error)
             }
             resolve(file);
@@ -42,4 +26,4 @@ async function uploadFile(authClient, fileName){
     });
 }
 
-module.exports = {uploadFile,authorize};
+module.exports = { uploadFile };
