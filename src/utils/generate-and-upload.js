@@ -5,7 +5,7 @@ const folder = require('./createFolder');
 const fs = require('fs');
 
 
-async function generate_upload(templateName, data, fileName, userID) {
+async function generateAndUpload(templateName, data, fileName, userID) {
 
   const folderID = await folder.createFolderIfNotExists(userID);
 
@@ -34,6 +34,6 @@ async function generate_upload(templateName, data, fileName, userID) {
 
 }
 
-generate_upload('invoice', '', 'test','1118728');
+module.exports = { generateAndUpload };
 
 
