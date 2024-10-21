@@ -1,70 +1,89 @@
 const AuthService = {};
-const prisma = require('../database');
+const Customer = require('../models/Customer');
+const Admin = require('../models/Admin');
+
 const hashPassword = require('../utils/password-hasher');
 const comparePassword = require('../utils/compare-password');
-const generateSignedUserToken = require('../utils/generate-token');
+const { generateSignedCustomerToken, generateSignedAdminToken } = require('../utils/generate-token');
 
-AuthService.createUserAndGenerateToken = async (userData) => {
-  const { username, email, password } = userData;
+AuthService.createCustomerAndGenerateToken = async (customerData) => {
+  const { username, email, password } = customerData;
 
-  const userExist = await prisma.user.findFirst({
-    where: {
-      email,
-    },
-  });
+  const emailExistAsCustomer = await Customer.findOne({ email });
+  const emailExistAsAdmin = await Admin.findOne({ email });
 
-  if (userExist) {
+  if (emailExistAsCustomer || emailExistAsAdmin) {
     throw new Error('Email already exists');
   }
 
   const hashedPassword = await hashPassword(password);
 
-  let token;
-  let newUser;
+  const session = await Customer.startSession();
+  session.startTransaction();
 
-  const transaction = await prisma.$transaction(async () => {
-    newUser = await prisma.user.create({
-      data: {
-        username,
-        email,
-        password: hashedPassword,
-        userType: 'CUSTOMER',
-      },
-    });
+  try {
+    const newCustomer = await Customer.create(
+      [
+        {
+          username,
+          email,
+          password: hashedPassword,
+        },
+      ],
+      { session },
+    );
 
-    try {
-      token = await generateSignedUserToken(newUser.id, newUser.userType);
-    } catch (error) {
-      throw new Error('Token generation failed');
-    }
+    const token = await generateSignedCustomerToken(newCustomer[0]._id);
 
-    return { newUser, token };
-  });
+    await session.commitTransaction();
+    session.endSession();
 
-  return transaction;
+    return { newCustomer: newCustomer[0], token };
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw new Error('Transaction failed: ' + error.message);
+  }
 };
 
-AuthService.loginUserAndSignToken = async (userData) => {
-  const { email, password } = userData;
+AuthService.loginCustomerAndSignToken = async (customerData) => {
+  const { email, password } = customerData;
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true, email: true, password: true },
-  });
+  const customer = await Customer.findOne({ email }, 'id email password');
 
-  if (!user) {
+  if (!customer) {
     throw new Error('User not found');
   }
 
-  const isPasswordValid = await comparePassword(password, user.password);
+  const isPasswordValid = await comparePassword(password, customer.password);
 
   if (!isPasswordValid) {
     throw new Error('Invalid password');
   }
 
-  const token = await generateSignedUserToken(user.id);
+  const token = await generateSignedCustomerToken(customer._id);
 
-  return { user, token };
+  return { customer, token };
+};
+
+AuthService.loginAdminAndSignToken = async (adminData) => {
+  const { email, password } = adminData;
+
+  const admin = await Admin.findOne({ email }, 'id email password role');
+
+  if (!admin) {
+    throw new Error('User not found');
+  }
+
+  const isPasswordValid = await comparePassword(password, admin.password);
+
+  if (!isPasswordValid) {
+    throw new Error('Invalid password');
+  }
+
+  const token = await generateSignedAdminToken(admin._id, admin.role);
+
+  return { admin, token };
 };
 
 module.exports = AuthService;

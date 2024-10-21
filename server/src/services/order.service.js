@@ -1,5 +1,5 @@
 const OrderService = {};
-const prisma = require('../database');
+
 const generateInvoiceId = require('../utils/generate-invoice');
 
 OrderService.requestInvoice = async (userId, requestData) => {

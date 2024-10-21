@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
-const prisma = require('../database');
+const Customer = require('../models/Customer');
+const Admin = require('../models/Admin');
 
-const userAuth = async (req, res, next) => {
+const customerAuth = async (req, res, next) => {
   try {
     const token = req.cookies.auth || req.headers.authorization?.split(' ')[1];
 
@@ -10,19 +11,39 @@ const userAuth = async (req, res, next) => {
     }
 
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    const user = await prisma.user.findUniqueOrThrow({
-      where: { id: decodedToken.id },
-      select: {
-        id: true,
-        userType: true,
-      },
-    });
+    const customer = await Customer.findById(decodedToken.id).select('id');
 
-    req.user = user;
+    if (!customer) {
+      throw new Error('User not found');
+    }
+
+    req.user = customer;
     next();
   } catch (err) {
     res.status(401).send('Unauthorized. Invalid Credentials');
   }
 };
 
-module.exports = userAuth;
+const adminAuth = async (req, res, next) => {
+  try {
+    const token = req.cookies.auth || req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      throw new Error('Invalid Auth Token');
+    }
+
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const admin = await Admin.findById(decodedToken.id).select('id role');
+
+    if (!admin) {
+      throw new Error('User not found');
+    }
+
+    req.user = admin;
+    next();
+  } catch (err) {
+    res.status(401).send('Unauthorized. Invalid Credentials');
+  }
+};
+
+module.exports = { customerAuth, adminAuth };

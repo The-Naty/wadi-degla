@@ -1,13 +1,12 @@
 const roleHierarchy = {
-  SUPER_ADMIN: 4,
-  ADMIN: 3,
-  MODERATOR: 2,
-  CUSTOMER: 1,
+  SUPER_ADMIN: 3,
+  ADMIN: 2,
+  MODERATOR: 1,
 };
 
 const authorize = (requiredRole) => {
   const isAuthorized = (req, res, next) => {
-    const userRole = req.user.userType;
+    const userRole = req.user.role;
 
     if (roleHierarchy[userRole] >= roleHierarchy[requiredRole]) {
       next();

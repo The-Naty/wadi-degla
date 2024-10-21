@@ -2,11 +2,18 @@ const jwt = require('jsonwebtoken');
 
 const AUTH_TOKEN_EXPIRY = '7d';
 
-const generateSignedUserToken = async (id, userType) => {
-  const jwtSignedUserToken = jwt.sign({ id, userType }, process.env.SECRET_KEY, {
+const generateSignedCustomerToken = async (id) => {
+  const jwtSignedCustomerToken = jwt.sign({ id }, process.env.SECRET_KEY, {
     expiresIn: AUTH_TOKEN_EXPIRY,
   });
-  return jwtSignedUserToken;
+  return jwtSignedCustomerToken;
 };
 
-module.exports = generateSignedUserToken;
+const generateSignedAdminToken = async (id, role) => {
+  const jwtSignedAdminToken = jwt.sign({ id, role }, process.env.SECRET_KEY, {
+    expiresIn: AUTH_TOKEN_EXPIRY,
+  });
+  return jwtSignedAdminToken;
+};
+
+module.exports = { generateSignedCustomerToken, generateSignedAdminToken };

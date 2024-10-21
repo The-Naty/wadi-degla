@@ -1,21 +1,20 @@
 const AuthController = {};
 const AuthService = require('../services/auth.service');
 
-AuthController.userRegister = async (req, res) => {
+AuthController.customerRegister = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const data = await AuthService.createUserAndGenerateToken({
+    const data = await AuthService.createCustomerAndGenerateToken({
       username,
       email,
       password,
     });
 
     res.status(201).cookie('auth', data.token, { httpOnly: true }).json({
-      id: data.newUser.id,
-      username: data.newUser.username,
-      email: data.newUser.email,
-      userType: data.newUser.userType,
+      id: data.newCustomer.id,
+      username: data.newCustomer.username,
+      email: data.newCustomer.email,
       token: data.token,
     });
   } catch (err) {
@@ -23,20 +22,39 @@ AuthController.userRegister = async (req, res) => {
   }
 };
 
-AuthController.userLogin = async (req, res) => {
+AuthController.customerLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const data = await AuthService.loginUserAndSignToken({
+    const data = await AuthService.loginCustomerAndSignToken({
       email,
       password,
     });
 
     res.status(200).cookie('auth', data.token, { httpOnly: true }).json({
-      id: data.user.id,
-      username: data.user.username,
-      email: data.user.email,
-      userType: data.user.userType,
+      id: data.customer.id,
+      username: data.customer.username,
+      email: data.customer.email,
+      token: data.token,
+    });
+  } catch (err) {
+    res.status(401).send({ message: err.message });
+  }
+};
+
+AuthController.adminLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const data = await AuthService.loginAdminAndSignToken({
+      email,
+      password,
+    });
+
+    res.status(200).cookie('auth', data.token, { httpOnly: true }).json({
+      id: data.admin.id,
+      username: data.admin.username,
+      email: data.admin.email,
       token: data.token,
     });
   } catch (err) {

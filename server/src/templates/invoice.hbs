@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Our Cool PDF Report</title>
+    <title>{{documentType}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
@@ -102,7 +102,7 @@
         </div>
 
         <div class="headerRight">
-            <h1 class="invoice">INVOICE</h1>
+            <h1 class="invoice">{{documentType}}</h1>
             <div style="font-size: smaller; line-height: 15px;">
 
                  <table border="1"
@@ -113,6 +113,7 @@
                             PROFORMA INV #
                             </th>
                         <td style="border-left: 0px; border-color:  rgb(0, 0, 0);;">
+                            {{proformaInvoice}}
                             </th>
                     </tr>
                     <tr>
@@ -121,7 +122,7 @@
                     </tr>
 
                     <td style="border-right: 0px;text-align: right; border-color:  rgb(0, 0, 0);;">CONTAINER #</td>
-                    <td style="border-left: 0px;border-color: rgb(0, 0, 0);">{{customerId}}</td>
+                    <td style="border-left: 0px;border-color: rgb(0, 0, 0);">{{containerId}}</td>
 
                     <tr style="background-color: #d9d9d9;">
                         <td style="border-right: 0px; text-align: right; border-color:  rgb(0, 0, 0);">INVOICE #</td>
@@ -143,25 +144,27 @@
                 <p>Name: {{customerName}}</p>
                 <p>Location: {{customerAddress}}</p>
                 <p>Telephone: {{customerPhone}} </p>
-                <p>RNC: </p>
+                <p>RNC: {{rnc}} </p>
             </div>
             <div class="vl"></div>
 
-            <div class="notify">
-                <table border="1" style="border-collapse: collapse;">
-                    <tr>
-                        <th style="background-color: #ad9571; width: 36.8vw;">NOTIFY</th>
-                    </tr>
-                    <tr>
-                        <td style="height: 70px;"></td>
-                    </tr>
-                </table>
-
-                <div class="notifyBox">
-
-                </div>
-
-            </div>
+          <div class="notify">
+    <table border="1" style="border-collapse: collapse;">
+        <tr>
+            <th style="background-color: #ad9571; width: 36.8vw;">NOTIFY</th>
+        </tr>
+        <tr>
+            <td style="font-size: small; line-height: 15px;">
+                {{#if notifyContent}}
+                    {{notifyContent}}
+                {{else}}
+                    No specific comment.
+                {{/if}}
+            </td>
+        </tr>
+       
+    </table>
+</div>
 
             <div class="Table">
                 <table border="1" style="margin-bottom: 25px; border-collapse: collapse; width: 75vw;">
@@ -173,7 +176,7 @@
                     <tr>
                         <td style=" padding: 10px;">Sea</td>
                         <td style=" padding: 10px;">CIF</td>
-                        <td style=" padding: 35px;"></td>
+                        <td style=" padding: 35px;">{{shippingTerm}}</td>
                         <td>{{PaymentTerms}}</td>
                     </tr>
 
@@ -184,7 +187,7 @@
                 <table border="1" style="border-collapse: collapse; width: 75vw;">
                     <tr>
                         <th style="padding: 8px; width: 2.5%;">#</th>
-                        <th style="padding: 8px; width: 40%;">DESCRIPTION (Tiles)</th>
+                        <th style="padding: 8px; width: 40%;">DESCRIPTION</th>
                         <th style="padding: 8px;" colspan="2">SIZE</th>
                         <th style="padding: 8px; width: 10%;">QUANTITY (Units)</th>
                         <th style="padding: 8px;">METERS</th>
@@ -199,9 +202,9 @@
                         <td>{{weight}}</td>
                         <td>{{height}}</td>
                         <td>{{quantity}}</td>
-                        <td style="padding: 3px; text-align: right;">{{meters}}</td>
-                        <td style="padding: 3px; text-align: right;">{{price}}</td>
-                        <td style="padding: 3px; text-align: right;">{{total}}</td>
+                        <td>{{meters}}</td>
+                        <td>{{price}}</td>
+                        <td>{{total}}</td>
                     </tr>
 
                     {{/each}}
@@ -212,107 +215,73 @@
                 <div>
                     <table border="1" style="border-collapse: collapse; width: 75vw;">
                         <tr>
-                            <th style="padding: 15px; font-weight: normal; color:rgb(31, 30, 30); background-color: #a9d08e; width: 43.5%;">
+                            <td style="padding: 15px; font-weight: normal; color:rgb(31, 30, 30); background-color: #a9d08e; width: 43.5%;">
                                 Other Comments or Special Instructions
-                            </th>
-                            </td>
-                              <td style="border-right: 0px;background-color: #aad08e00; border-color: rgb(0, 0, 0);"></td>
-                            <td
-                                style="border-left: 0px; border-right: 0px; background-color: #aad08e00; font-weight: bold;  border-color: rgb(0, 0, 0)">
-                            </td>
-                            <td
-                                style="border-left: 0px; border-right: 0px; background-color: #aad08e00; border-color:rgb(0, 0, 0);">
-                            </td>
-                            <td
-                                style="border-left: 0px; border-right: 0px; background-color: #aad08e00; border-color: rgb(0, 0, 0);">
-                            </td>
-                            <td
-                                style="border: 0px; padding: 3px; text-align: right; background-color: #aad08e00; border-color: rgb(0, 0, 0);">
                             </td>
                             
+                              <td colspan="2" style="font-weight: bold; border-color: rgb(0, 0, 0);text-align: center;">
+                                {{#if comment}}
+                                    {{comment}}
+                                {{else}}
+                                    No comments or special instructions.
+                                {{/if}}</td>             
                         </tr>
 
-                        <tr>
-                            <td>
-                                Shipment Total X Containers
+                        <tr>                             
                             <td
-                                style="border-right: 0px;  width: 3%; border-color: rgb(0, 0, 0);">
+                                style=" border-color: rgb(0, 0, 0);">
+                                Shipment Total {{shipmentTotalContainers}} Containers
                             </td>
                             <td
-                                style="border-left: 0px; border-right: 0px; font-weight: bold; width: 22%; border-color: rgb(0, 0, 0);">
+                                style="  font-weight: bold; border-color: rgb(0, 0, 0);">
                                 Shipment fees</td>
-                            <td
-                                style="border-left: 0px; border-right: 0px; width: 5%; border-color: rgb(0, 0, 0);">
-                            </td>
-                            <td style="border-left: 0px; border-color: rgb(0, 0, 0);"></td>
-                            <td
-                                style="padding: 3px; text-align: right; width: 11.65%; border-color: rgb(0, 0, 0);">
-                            </td>
-
-                            
+                                <td
+                                style="padding: 3px; text-align: center;  border-color: rgb(0, 0, 0);">
+                                {{shipmentFees}}</td>
                         </tr>
                         <tr>
-                            <td>
-                                Total {{totalBoxes}} Boxes
-                            </td>
-                            <td style="border-right: 0px;border-color: rgb(0, 0, 0);"></td>
+                            <td style="border-color: rgb(0, 0, 0);">Total {{totalBoxes}} Boxes</td>
                             <td
-                                style="border-left: 0px; border-right: 0px;  font-weight: bold;  border-color: rgb(0, 0, 0)">
+                                style="  font-weight: bold;  border-color: rgb(0, 0, 0)">
                                 Discount</td>
+                        
                             <td
-                                style="border-left: 0px; border-right: 0px;  border-color:rgb(0, 0, 0);">
-                            </td>
-                            <td style="border-left: 0px; border-color: rgb(0, 0, 0);"></td>
-                            <td
-                                style="padding: 3px; text-align: right;  border-color: rgb(0, 0, 0);">
+                                style="padding: 3px; text-align: center;  border-color: rgb(0, 0, 0);">
                                 {{discount}}</td>
 
                           
                         </tr>
                         <tr>
-                            <td>
-                                NET WEIGHT {{netWeight}}
-                            </td>
-                            <td style="border-right: 0px;background-color: #a9d08e; border-color: rgb(0, 0, 0);"></td>
+                            <td style="background-color: #a9d08e; border-color: rgb(0, 0, 0);">NET WEIGHT {{netWeight}}</td>
                             <td
-                                style="border-left: 0px; border-right: 0px; background-color: #a9d08e; font-weight: bold;  border-color: rgb(0, 0, 0)">
+                                style=" background-color: #a9d08e; font-weight: bold;  border-color: rgb(0, 0, 0)">
                                 TOTAL</td>
+
                             <td
-                                style="border-left: 0px; border-right: 0px; background-color: #a9d08e; border-color:rgb(0, 0, 0);">
-                            </td>
-                            <td style="border-left: 0px; background-color: #a9d08e; border-color: rgb(0, 0, 0);"></td>
-                            <td
-                                style="padding: 3px; text-align: right; background-color: #a9d08e; border-color: rgb(0, 0, 0);">
+                                style="padding: 3px; text-align: center; background-color: #a9d08e; border-color: rgb(0, 0, 0);">
                                 {{total}}</td>
                             
                         </tr>
                         <tr>
-                            <td>GROSS WEIGHT {{grossWeight}}
-                            </td>
-                            <td style="border-right: 1px; background-color: #d9d9d9; border-color: rgb(0, 0, 0);"></td>
-                            <td colspan=2
-                                style="border-left: 1px; border-right: 1px; background-color: #d9d9d9; font-weight: bold;  border-color: rgb(0, 0, 0);">
+                            <td style="background-color: #d9d9d9; border-color: rgb(0, 0, 0);">GROSS WEIGHT {{grossWeight}}</td>
+                            <td 
+                                style=" background-color: #d9d9d9; font-weight: bold;  border-color: rgb(0, 0, 0);">
                                 TOTAL METERS m2</td>
-
                             <td
-                                style="border-left: 1px; border-right: 1px; background-color: #d9d9d9; border-color: rgb(0, 0, 0);">
-                            </td>
-                            <td
-                                style="padding: 3px; text-align: right; background-color: #d9d9d9; border-color: rgb(0, 0, 0);">
+                                style="padding: 3px; text-align: center; background-color: #d9d9d9; border-color: rgb(0, 0, 0);">
                                 {{totalMeters}}</td>
                         </tr>
                     </table>
                 </div>
                 <p
                     style="text-align: center; width: 150%; font-size: medium; text-decoration-line: underline; margin-top: 10%;">
-                    Packing:
-                    Tiles in Wooden Boxes
-                    10% less or more
+                    {{packingInfo}}
                 </p>
                 <div style="line-height: 4px; margin-top: 10%;">
                     <p style="font-weight: bold; width: 100%; font-size: small;">Make all checks Payable to WADI DEGLA
                         FOR MARBLE AND GRANITE</p>
                     <p style="font-weight: bold; width: 100%; font-size: small;">AC No: 1702254949110012</p>
+                    <p style="font-weight: bold; width: 100%; font-size: small;">IBAN: EG350023001701702254949110012</p>
                     <p style="font-weight: bold; width: 100%; font-size: small;">Bank: AL WATANY BANK OF EGYPT NATIONAL
                         BANK OF KUWAIT</p>
                     <p style="font-weight: bold; width: 100%; font-size: small;">Branch: Maadi Branch</p>

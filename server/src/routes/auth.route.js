@@ -1,12 +1,13 @@
 const express = require('express');
 const AuthController = require('../controllers/auth.controller');
 const validate = require('../middlewares/request-validator.middleware');
-const { registerUserReqSchema, loginUserReqSchema } = require('../validations/user.validation.schema');
+const { registerCustomerReqSchema, loginCustomerReqSchema } = require('../validations/customer.validation.schema');
 
 const router = express.Router();
 
-router.post('/register', validate(registerUserReqSchema), AuthController.userRegister);
-router.post('/login', validate(loginUserReqSchema), AuthController.userLogin);
+router.post('/customer/register', validate(registerCustomerReqSchema), AuthController.customerRegister);
+router.post('/customer/login', validate(loginCustomerReqSchema), AuthController.customerLogin);
+router.post('/admin/login', validate(loginCustomerReqSchema), AuthController.adminLogin);
 router.post('/logout', AuthController.deleteCookie);
 
 module.exports = router;
